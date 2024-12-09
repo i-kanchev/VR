@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Ivo's Conus Cubicus</title>
+		<meta charset="utf-8">
+		
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		
+		<script type="importmap">
+		  {
+			"imports": {
+			  "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+			  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/",
+			  "vax": "https://boytchev.github.io/CourseVAX/lib/vax.js"
+			}
+		  }
+		</script>
+	</head>
+	
+	<body>
+		<script type="module">
+		
+			import * as THREE from "three";
+			import * as VAX from "vax";
+			
+			VAX.init(animate, {stats:true});
+
+			function getRandomColor() {
+				const r = Math.floor(Math.random() * 256);
+				const g = Math.floor(Math.random() * 256);
+				const b = Math.floor(Math.random() * 256);
+				return `rgb(${r},${g},${b})`;
+			}
+
+			var geometry_cone = new THREE.ConeGeometry(5, 10, 24);
+
+			var total_cones = 1000;
+
+			var dist = 150;
+
+			for (var i = 0; i < total_cones; i++) {
+				var material = new THREE.MeshBasicMaterial({ color: getRandomColor() });
+
+				var cone = new THREE.Mesh(geometry_cone, material);
+
+				var x = THREE.MathUtils.randFloat(-dist, dist);
+				var y = THREE.MathUtils.randFloat(-dist, dist);
+				var z = THREE.MathUtils.randFloat(-dist, dist);
+
+				var wall = Math.floor(Math.random() * 6);
+
+				// used to reduce z-fighting
+				var delta = THREE.MathUtils.randFloat(0, 0.1);
+
+				switch (wall) {
+					case 0:
+						x = dist + delta;
+						break;
+					case 1:
+						x = -dist - delta;
+						break;
+					case 2:
+						y = dist + delta;
+						break;
+					case 3:
+						y = -dist - delta;
+						break;
+					case 4:
+						z = dist + delta;
+						break;
+					case 5:
+						z = -dist - delta;
+						break;
+					default:
+						// UwU
+				}
+			
+				cone.position.set(x, y, z);
+				
+				VAX.scene.add(cone);
+			}
+
+			window.addEventListener("deviceorientation", deviceOrientation, true);
+
+			function deviceOrientation(event) {
+				var alpha = event.alpha;
+				var beta = event.beta;
+				var gamma = event.gamma;
+
+				VAX.camera.rotation.set(alpha, 0, 0);
+			}
+
+			// VAX.camera.position.z = 1000;
+
+			function animate(t)
+			{
+				// VAX.camera.rotation.set( t/5, t/6, 0/5);
+			}
+			
+		</script>
+	</body>
+</html>
+
+
