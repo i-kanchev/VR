@@ -119,6 +119,9 @@
 
 				targetRotationY = THREE.MathUtils.degToRad(alpha);
     			targetRotationX = THREE.MathUtils.degToRad(gamma);
+
+				VAX.camera.rotation.y = targetRotationY;
+    			VAX.camera.rotation.x = targetRotationX;
 			}
 
 			// function unwrapAngle(current, target) {
@@ -136,16 +139,16 @@
 			{
 				
 				
-				currentRotationY = THREE.MathUtils.lerp(currentRotationY, targetRotationY, 0.1);
-    			currentRotationX = THREE.MathUtils.lerp(currentRotationX, targetRotationX, 0.1);
+				// currentRotationY = THREE.MathUtils.lerp(currentRotationY, targetRotationY, 0.1);
+    			// currentRotationX = THREE.MathUtils.lerp(currentRotationX, targetRotationX, 0.1);
 				
 				
 				
 				// targetRotationY = unwrapAngle(currentRotationY, targetRotationY);
     			// targetRotationX = unwrapAngle(currentRotationX, targetRotationX);
 
-				VAX.camera.rotation.y = currentRotationY;
-    			VAX.camera.rotation.x = currentRotationX;
+				// VAX.camera.rotation.y = currentRotationY;
+    			// VAX.camera.rotation.x = currentRotationX;
 			}
 			
 		</script>
