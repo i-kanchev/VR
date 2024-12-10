@@ -97,9 +97,16 @@
 				var beta = event.beta;
 				var gamma = event.gamma;
 
-				targetRotationY = THREE.MathUtils.degToRad(alpha);
-    			targetRotationX = THREE.MathUtils.degToRad(gamma);
+				
 
+				// alpha and beta are dependable on gamma
+
+				if (gamma < 0) {
+					alpha += 180;
+				}
+
+				// alpha [0,360)
+				
 				// gamma [-90,90)
 				// if (currentRotationY < 0) {
 				// 	currentRotationY += Math.PI/2;
@@ -109,6 +116,9 @@
 				// if (currentRotationX < 0) {
 				// 	currentRotationX += Math.PI;
 				// }
+
+				targetRotationY = THREE.MathUtils.degToRad(alpha);
+    			targetRotationX = THREE.MathUtils.degToRad(gamma);
 			}
 
 			// function unwrapAngle(current, target) {
