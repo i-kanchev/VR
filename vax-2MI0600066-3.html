@@ -111,16 +111,16 @@
 				// }
 			}
 
-			function unwrapAngle(current, target) {
-				while (target - current > Math.PI/2) {
-					target -= Math.PI/2;
-				}
-				while (target - current < -Math.PI/2) {
-					target += Math.PI/2;
-				}
+			// function unwrapAngle(current, target) {
+			// 	while (target - current > Math.PI/2) {
+			// 		target -= Math.PI/2;
+			// 	}
+			// 	while (target - current < -Math.PI/2) {
+			// 		target += Math.PI/2;
+			// 	}
 
-				return target;
-			}
+			// 	return target;
+			// }
 
 			function animate(t)
 			{
@@ -131,7 +131,7 @@
 				
 				
 				
-				targetRotationY = unwrapAngle(currentRotationY, targetRotationY);
+				// targetRotationY = unwrapAngle(currentRotationY, targetRotationY);
     			// targetRotationX = unwrapAngle(currentRotationX, targetRotationX);
 
 				VAX.camera.rotation.y = currentRotationY;
