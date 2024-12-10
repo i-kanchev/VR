@@ -105,6 +105,10 @@
 					alpha += 180;
 				}
 
+				var gui = new lil.GUI();
+				gui.add(VAX.pose, 'alpha', -360, 360).name('&alpha;').step(0.1).decimals(1).listen();
+				gui.add(VAX.pose, 'gamma', -180, 180).name('&gamma;').step(0.1).decimals(1).listen();
+
 				// alpha [0,360)
 				
 				// gamma [-90,90)
