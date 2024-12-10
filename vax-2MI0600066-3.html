@@ -101,11 +101,25 @@
     			targetRotationX = THREE.MathUtils.degToRad(beta);
 			}
 
+			function unwrapAngle(current, target) {
+				while (target - current > Math.PI) {
+					target -= 2 * Math.PI;
+				}
+				while (target - current < -Math.PI) {
+					target += 2 * Math.PI;
+				}
+
+				return target;
+			}
+
 			function animate(t)
 			{
 				currentRotationY = THREE.MathUtils.lerp(currentRotationY, targetRotationY, 0.1);
     			currentRotationX = THREE.MathUtils.lerp(currentRotationX, targetRotationX, 0.1);
 				
+				targetRotationY = unwrapAngle(currentRotationY, targetRotationY);
+    			targetRotationX = unwrapAngle(currentRotationX, targetRotationX);
+
 				VAX.camera.rotation.y = currentRotationY;
     			VAX.camera.rotation.x = currentRotationX;
 			}
