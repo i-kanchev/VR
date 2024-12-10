@@ -102,7 +102,7 @@
 				// alpha and beta are dependable on gamma
 
 				if (gamma < 0) {
-					// alpha += 180;
+					alpha += 180;
 				}
 
 				// alpha [0,360)
@@ -122,6 +122,10 @@
 
 				// VAX.camera.rotation.y = targetRotationY;
     			VAX.camera.rotation.x = targetRotationX;
+
+				if (gamma < 0) {
+					VAX.camera.rotation.z = Math.PI;
+				}
 			}
 
 			// function unwrapAngle(current, target) {
