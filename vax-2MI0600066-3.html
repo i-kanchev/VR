@@ -137,7 +137,7 @@
 				
 				
 				currentRotationY = THREE.MathUtils.lerp(currentRotationY, targetRotationY, 0.1);
-    			// currentRotationX = THREE.MathUtils.lerp(currentRotationX, targetRotationX, 0.1);
+    			currentRotationX = THREE.MathUtils.lerp(currentRotationX, targetRotationX, 0.1);
 				
 				
 				
@@ -145,7 +145,7 @@
     			// targetRotationX = unwrapAngle(currentRotationX, targetRotationX);
 
 				VAX.camera.rotation.y = currentRotationY;
-    			// VAX.camera.rotation.x = currentRotationX;
+    			VAX.camera.rotation.x = currentRotationX;
 			}
 			
 		</script>
