@@ -81,11 +81,8 @@
 				VAX.scene.add(cone);
 			}
 
-			// слушаме за събитието на ориентацията на устройство
 			window.addEventListener("deviceorientation", deviceOrientation, true);
 
-			// функция, която върти стрелката на компаса
-			// в обратна посока на въртенето на устройството
 			function deviceOrientation(event)
 			{
 				var alpha = event.alpha;
@@ -93,20 +90,8 @@
 				var gamma = event.gamma;
 				
 				VAX.camera.rotation.y = THREE.MathUtils.degToRad(gamma);
-				VAX.camera.rotation.x = THREE.MathUtils.degToRad(beta);
+				// VAX.camera.rotation.x = THREE.MathUtils.degToRad(beta);
 			}
-
-			// window.addEventListener("deviceorientation", deviceOrientation, true);
-
-			// function deviceOrientation(event) {
-			// 	var alpha = event.alpha;
-			// 	var beta = event.beta;
-			// 	var gamma = event.gamma;
-
-			// 	VAX.camera.rotation.set(THREE.MathUtils.degToRad(gamma), THREE.MathUtils.degToRad(alpha), 0);
-			// }
-
-			// VAX.camera.position.z = 1000;
 
 			function animate(t)
 			{
