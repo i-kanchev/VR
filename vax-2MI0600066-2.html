@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Ivo's Tetris Soup</title>
+		<meta charset="utf-8">
+		
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		
+		<script type="importmap">
+		  {
+			"imports": {
+			  "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+			  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/",
+			  "physijs": "./physijs/physi.module.js",
+			  "vax": "./vax-physi.js"
+		    }
+		  }
+		</script>
+	</head>
+	
+	<body>
+		<script type="module">
+		
+			import * as THREE from "three";
+			import "physijs";
+			import * as VAX from "vax";
+			
+			VAX.init(animate, {stats:true});
+
+			// светлина и сенки
+			VAX.renderer.shadowMap.enabled = true;
+			VAX.light.shadow.mapSize = new THREE.Vector2(1024 * 2, 1024 * 2);
+			VAX.light.position.set(-150, 300, -50);
+			VAX.light.castShadow = true;
+
+			// по-добра позиция на камерата
+			VAX.camera.position.set(0, 80, 240);
+			VAX.camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+			// земя
+			var geometry_ground = new THREE.BoxGeometry(300, 4, 300);
+			var material_ground = Physijs.createMaterial(new THREE.MeshPhysicalMaterial({color: 0xD8BFD8}));
+			var ground = new Physijs.BoxMesh(geometry_ground, material_ground, 0);
+			ground.position.set(0, -10, 0);
+			ground.receiveShadow = true;
+			VAX.scene.add(ground);
+
+			// купа
+			var material_container = Physijs.createMaterial(new THREE.MeshPhysicalMaterial({color:"red", transparent:true, opacity:0.4, side:THREE.DoubleSide}));
+			var material_container_hidden = Physijs.createMaterial(new THREE.MeshPhysicalMaterial({transparent:true, opacity:0}));
+
+			var geometry_container_bottom = new THREE.BoxGeometry(40, 1, 40);
+			var geometry_container_edge = new THREE.CylinderGeometry(40*Math.SQRT2, 20*Math.SQRT2, 40*Math.sqrt(3)/2, 4, 1, true);
+			var geometry_container_edge_hidden = new THREE.BoxGeometry(80, 40, 1);
+
+			var container = new Physijs.BoxMesh(geometry_container_bottom, material_container, 0);
+
+			var container_edge1 = new Physijs.BoxMesh(geometry_container_edge_hidden, material_container_hidden, 0);
+			container_edge1.position.set(0, 17.5, 30.6);
+			container_edge1.rotation.set(Math.PI/6, 0, 0);
+
+			var container_edge2 = new Physijs.BoxMesh(geometry_container_edge_hidden, material_container_hidden, 0);
+			container_edge2.position.set(0, 17.5, -30.6);
+			container_edge2.rotation.set(-Math.PI/6, 0, 0);
+
+			var container_edge3 = new Physijs.BoxMesh(geometry_container_edge_hidden, material_container_hidden, 0);
+			container_edge3.position.set(30.6, 17.5, 0);
+			container_edge3.rotation.set(Math.PI/6, Math.PI/2, 0, "YXZ");
+
+			var container_edge4 = new Physijs.BoxMesh(geometry_container_edge_hidden, material_container_hidden, 0);
+			container_edge4.position.set(-30.6, 17.5, 0);
+			container_edge4.rotation.set(-Math.PI/6, Math.PI/2, 0, "YXZ");
+
+			container.add(container_edge1, container_edge2, container_edge3, container_edge4);
+
+			var container_edge = new THREE.Mesh(geometry_container_edge, material_container);
+			container_edge.position.set(0, 17.5, 0);
+			container_edge.rotation.set(0, Math.PI/4, 0);
+			container_edge.castShadow = true;
+
+			container.add(container_edge);
+			container.position.y = -8;
+			container.castShadow = true;
+
+			VAX.scene.add(container);
+
+			// решетка за красота
+			var geometry_wrapper = new THREE.BoxGeometry(10, 1, 1);
+			var material_wrapper = new THREE.MeshLambertMaterial({color: 'black'});
+
+			var wrapper = new THREE.Group();
+				
+			var wrapper1 = new THREE.Mesh(geometry_wrapper, material_wrapper);
+			wrapper1.position.set(0, 4.5, 4.5);
+
+			var wrapper2 = new THREE.Mesh(geometry_wrapper, material_wrapper);
+			wrapper2.position.set(0, 4.5, -4.5);
+
+			var wrapper3 = new THREE.Mesh(geometry_wrapper, material_wrapper);
+			wrapper3.position.set(0, -4.5, 4.5);
+
+			var wrapper4 = new THREE.Mesh(geometry_wrapper, material_wrapper);
+			wrapper4.position.set(0, -4.5, -4.5);
+
+			var wrapper5 = new THREE.Mesh(geometry_wrapper, material_wrapper);
+			wrapper5.position.set(4.5, 0, 4.5);
+			wrapper5.rotation.set(0, 0, Math.PI/2);
+
+			var wrapper6 = new THREE.Mesh(geometry_wrapper, material_wrapper);
+			wrapper6.position.set(4.5, 0, -4.5);
+			wrapper6.rotation.set(0, 0, Math.PI/2);
+
+			var wrapper7 = new THREE.Mesh(geometry_wrapper, material_wrapper);
+			wrapper7.position.set(-4.5, 0, 4.5);
+			wrapper7.rotation.set(0, 0, Math.PI/2);
+
+			var wrapper8 = new THREE.Mesh(geometry_wrapper, material_wrapper);
+			wrapper8.position.set(-4.5, 0, -4.5);
+			wrapper8.rotation.set(0, 0, Math.PI/2);
+
+			var wrapper9 = new THREE.Mesh(geometry_wrapper, material_wrapper);
+			wrapper9.position.set(4.5, 4.5, 0);
+			wrapper9.rotation.set(0, Math.PI/2, 0);
+
+			var wrapper10 = new THREE.Mesh(geometry_wrapper, material_wrapper);
+			wrapper10.position.set(4.5, -4.5, 0);
+			wrapper10.rotation.set(0, Math.PI/2, 0);
+
+			var wrapper11 = new THREE.Mesh(geometry_wrapper, material_wrapper);
+			wrapper11.position.set(-4.5, 4.5, 0);
+			wrapper11.rotation.set(0, Math.PI/2, 0);
+
+			var wrapper12 = new THREE.Mesh(geometry_wrapper, material_wrapper);
+			wrapper12.position.set(-4.5, -4.5, 0);
+			wrapper12.rotation.set(0, Math.PI/2, 0);
+				
+			wrapper.add(
+				wrapper1, wrapper2, wrapper3, wrapper4, wrapper5, wrapper6,
+				wrapper7, wrapper8, wrapper9, wrapper10, wrapper11, wrapper12
+			);
+
+			var is_overflowing = false;
+
+			// блокче
+			function SpawnBlock()
+			{
+				if (is_overflowing) return;
+
+				var item, item2, item3, item4;
+
+				var geometry_square = new THREE.BoxGeometry(9.9, 9.9, 9.9);
+
+				var rnd = Math.random();
+
+				if (rnd < 0.5) {
+					var material_smashboy = Physijs.createMaterial(new THREE.MeshPhysicalMaterial({color: "yellow"}));
+					
+					item = new Physijs.BoxMesh(geometry_square, material_smashboy);
+					item2 = new Physijs.BoxMesh(geometry_square, material_smashboy);
+					item3 = new Physijs.BoxMesh(geometry_square, material_smashboy);
+					item4 = new Physijs.BoxMesh(geometry_square, material_smashboy);
+
+					item2.position.set(0, 10, 0);
+					item3.position.set(10, 0, 0);
+					item4.position.set(10, 10, 0);
+
+					item.add(item2, item3, item4);		
+				} else {
+					var material_rhode = Physijs.createMaterial(new THREE.MeshPhysicalMaterial({color: 'lime'}));
+
+					item = new Physijs.BoxMesh(geometry_square, material_rhode);
+					item2 = new Physijs.BoxMesh(geometry_square, material_rhode);
+					item3 = new Physijs.BoxMesh(geometry_square, material_rhode);
+					item4 = new Physijs.BoxMesh(geometry_square, material_rhode);
+
+					item2.position.set(0, 10, 0);
+					item3.position.set(-10, 0, 0);
+					item4.position.set(10, 10, 0);
+
+					item.add(item2, item3, item4);
+				}
+
+				item.add(wrapper.clone());
+				item2.add(wrapper.clone());
+				item3.add(wrapper.clone());
+				item4.add(wrapper.clone());
+
+				item.receiveShadow = true;
+				item.castShadow = true;
+				item2.receiveShadow = true;
+				item2.castShadow = true;
+				item3.receiveShadow = true;
+				item3.castShadow = true;
+				item4.receiveShadow = true;
+				item4.castShadow = true;
+
+				item.position.set(THREE.MathUtils.randFloat(-30, 30), 150, THREE.MathUtils.randFloat(-30, 30));
+				item.rotation.set(THREE.MathUtils.randFloat(0, 2*Math.PI), THREE.MathUtils.randFloat(0, 2*Math.PI), THREE.MathUtils.randFloat(0, 2*Math.PI));
+
+				VAX.scene.add(item);
+			}
+
+			// ammo.js не успява много успешно за засече колизии когато има много предметa (20+ някъде)
+			function Stop(otherObject)
+			{
+				is_overflowing = true;
+
+				VAX.scene.remove(otherObject);
+			}
+
+			ground.addEventListener('collision', Stop);
+
+			// първоначалната идея беше когато падне едно блокче да се пуска друго, но поради проблема с колизиите спираше в произволни моменти
+			setInterval(() => {
+    			SpawnBlock();
+			}, 1500);
+
+			function animate(t)
+			{				
+				VAX.scene.simulate(1/10);
+				VAX.scene.rotation.y = t/5;
+			}
+			
+		</script>
+	</body>
+</html>
+
+

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Ivo's Foxie</title>
+		<meta charset="utf-8">
+		
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		
+		<script type="importmap">
+		  {
+			"imports": {
+			  "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+			  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/",
+			  "vax": "https://boytchev.github.io/CourseVAX/lib/vax.js"
+			}
+		  }
+		</script>
+	</head>
+	
+	<body>
+		<script type="module">
+		
+			import * as THREE from "three";
+			import * as VAX from "vax";
+			
+			VAX.init(animate, {stats:true});
+
+			var material_orange = new THREE.MeshLambertMaterial({color: 'orange'});
+			var material_white = new THREE.MeshLambertMaterial({color: 'white'});
+			var material_black = new THREE.MeshLambertMaterial({color: 'black'});
+			var material_lightblack = new THREE.MeshLambertMaterial({color: 0x555954});
+			var material_pink = new THREE.MeshLambertMaterial({color: 'pink'});
+			var material_brown = new THREE.MeshLambertMaterial({color: 'brown'});
+			var material_grey = new THREE.MeshLambertMaterial({color: 'grey'});
+
+			var geometry_box = new THREE.BoxGeometry(1, 1, 1);
+			var geometry_cylinder = new THREE.CylinderGeometry(2, 5, 5, 4);
+
+			var fox = new THREE.Group();
+
+			var body = new THREE.Group();
+			var nose = new THREE.Group();
+			var ear = new THREE.Group();
+			var leg = new THREE.Group();
+			var tail = new THREE.Group();
+
+			VAX.scene.add(fox);
+			VAX.scene.background = new THREE.Color('lightgreen');
+
+			//
+
+			var main = new THREE.Mesh(geometry_box, material_orange);
+			main.scale.set(30, 30, 30);
+
+			var eye1 = new THREE.Mesh(geometry_box, material_lightblack);
+			eye1.scale.set(3, 3, 3);
+			eye1.position.set(16.5, 7.5, -8);
+
+			var eye2 = new THREE.Mesh(geometry_box, material_lightblack);
+			eye2.scale.set(3, 3, 3);
+			eye2.position.set(16.5, 7.5, 8);
+
+			var fur = new THREE.Mesh(new THREE.CircleGeometry(12, 3), material_white);
+			fur.position.set(15.01, -9, 0);
+			fur.rotation.set(Math.PI / 2, Math.PI / 2, 0);
+			
+			body.add(main, eye1, eye2, fur);
+
+			var whiskers_z = [10.5, 8.5, 6.5, -6.5, -8.5, -10.5];
+
+			for (var z of whiskers_z) {
+				var whisker = new THREE.Mesh(geometry_box, material_pink);
+				whisker.scale.set(1, 2, 1);
+				whisker.position.set(14.6, -2, z);
+
+				body.add(whisker);
+			}
+
+			//
+
+			var nose_part_1 = new THREE.Mesh(geometry_box, material_white);
+			nose_part_1.scale.set(10, 10, 10);
+			nose_part_1.position.set(20, 0, 0);
+
+			var nose_part_2 = new THREE.Mesh(geometry_box, material_lightblack);
+			nose_part_2.scale.set(3, 3, 3);
+			nose_part_2.position.set(26.5, 3, 0);
+
+			nose.add(nose_part_1, nose_part_2);
+
+			var freckles_x = [21, 22, 23, 21, 22, 23];
+			var freckles_y = [1, -1, 1, 1, -1, 1];
+			var freckles_z = [4.51, 4.51, 4.51, -4.51, -4.51, -4.51];
+
+			for (var i = 0; i < freckles_x.length; i++) {
+				var freckle = new THREE.Mesh(geometry_box, material_grey);
+				freckle.scale.set(1, 1, 1);
+				freckle.position.set(freckles_x[i], freckles_y[i], freckles_z[i]);
+
+				body.add(freckle);
+			}
+
+			//
+
+			var ear_outer = new THREE.Mesh(geometry_cylinder, material_orange);
+			ear_outer.rotation.set(0, Math.PI / 4, 0);
+			
+			var ear_inner = new THREE.Mesh(ear_outer.geometry.clone(), material_black);
+			ear_inner.rotation.set(0, Math.PI / 4, 0);
+			ear_inner.position.set(1.8, -1.2, 0);
+			ear_inner.scale.set(0.5, 0.5, 0.5);
+			
+			ear.add(ear_outer, ear_inner);
+			ear.scale.set(0.5, 1, 1);
+			ear.position.set(10, 17.5, 7.5);
+
+			var ear2 = ear.clone();
+			ear2.position.set(10, 17.5, -7.5);
+
+			//
+
+			var leg_part_1 = new THREE.Mesh(geometry_box, material_orange);
+			leg_part_1.scale.set(9, 12, 9);
+
+			var leg_part_2 = new THREE.Mesh(geometry_box, material_brown);
+			leg_part_2.scale.set(9, 3, 9);
+			leg_part_2.position.set(0, -7.5, 0);
+
+			leg.add(leg_part_1, leg_part_2);
+
+			var nails_z = [2, 0, -2];
+
+			for (var z of nails_z) {
+				var nail = new THREE.Mesh(geometry_box, material_black);
+				nail.scale.set(1, 2, 1);
+				nail.position.set(4.51, -7.9, z);
+
+				leg.add(nail);
+			}
+
+			leg.position.set(7.5, -15, 7.5);
+
+			var leg2 = leg.clone();
+			leg2.position.set(7.5, -15, -7.5);
+
+			var leg3 = leg.clone();
+			leg3.position.set(-7.5, -15, 7.5);
+
+			var leg4 = leg.clone();
+			leg4.position.set(-7.5, -15, -7.5);
+
+			//
+
+			var tail_part_1 = new THREE.Mesh(geometry_box, material_orange);
+			tail_part_1.scale.set(16, 4, 4);
+			tail_part_1.position.set(-19, -8, 0);
+
+			var tail_part_2 = new THREE.Mesh(geometry_box, material_white);
+			tail_part_2.scale.set(4, 4, 4);
+			tail_part_2.position.set(-29, -8, 0);
+
+			tail.add(tail_part_1, tail_part_2);
+
+			//
+
+			fox.add(body, nose, ear, ear2, leg, leg2, leg3, leg4, tail);
+
+			var walking_speed = 6;
+
+			function animate(t)
+			{
+				leg.rotation.set(0, 0, -Math.PI / 12 * Math.sin(t * walking_speed));
+				leg2.rotation.set(0, 0, Math.PI / 12 * Math.sin(t * walking_speed));
+				leg3.rotation.set(0, 0, Math.PI / 12 * Math.sin(t * walking_speed));
+				leg4.rotation.set(0, 0, -Math.PI / 12 * Math.sin(t * walking_speed));
+
+				tail.rotation.set(0, Math.PI / 24 * Math.sin(t * walking_speed), 0);
+				
+				fox.rotation.set(0, t / 2, 0);
+			}
+			
+		</script>
+	</body>
+</html>
+
+
