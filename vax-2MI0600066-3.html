@@ -83,18 +83,33 @@
 
 			window.addEventListener("deviceorientation", deviceOrientation, true);
 
+			var targetRotationY = 0;
+			var targetRotationX = 0;
+
+			var currentRotationY = 0;
+			var currentRotationX = 0;
+
 			function deviceOrientation(event)
 			{
 				var alpha = event.alpha;
 				var beta = event.beta;
 				var gamma = event.gamma;
+
+				targetRotationY = THREE.MathUtils.degToRad(gamma);
+    			targetRotationX = THREE.MathUtils.degToRad(beta);
 				
-				VAX.camera.rotation.y = THREE.MathUtils.degToRad(gamma);
+				// VAX.camera.rotation.y = THREE.MathUtils.degToRad(gamma);
 				// VAX.camera.rotation.x = THREE.MathUtils.degToRad(beta);
 			}
 
 			function animate(t)
 			{
+				currentRotationY = THREE.MathUtils.lerp(currentRotationY, targetRotationY, 0.1);
+    			currentRotationX = THREE.MathUtils.lerp(currentRotationX, targetRotationX, 0.1);
+				
+				VAX.camera.rotation.y = currentRotationY;
+    			VAX.camera.rotation.x = currentRotationX;
+				
 				// VAX.camera.rotation.set( t/5, t/6, 0/5);
 			}
 			
