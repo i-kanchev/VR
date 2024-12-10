@@ -101,9 +101,9 @@
 
 				// alpha and beta are dependable on gamma
 
-				// if (gamma < 0) {
-				// 	alpha += 180;
-				// }
+				if (gamma < 0) {
+					alpha += 180;
+				}
 
 				// alpha [0,360)
 				
@@ -120,7 +120,7 @@
 				targetRotationY = THREE.MathUtils.degToRad(alpha);
     			targetRotationX = THREE.MathUtils.degToRad(gamma);
 
-				VAX.camera.rotation.y = targetRotationY;
+				// VAX.camera.rotation.y = targetRotationY;
     			VAX.camera.rotation.x = targetRotationX;
 			}
 
