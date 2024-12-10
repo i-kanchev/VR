@@ -88,7 +88,12 @@
 			// в обратна посока на въртенето на устройството
 			function deviceOrientation(event)
 			{
-				VAX.camera.rotation.y = THREE.MathUtils.degToRad(-event.alpha);
+				var alpha = event.alpha;
+				var beta = event.beta;
+				var gamma = event.gamma;
+				
+				VAX.camera.rotation.y = THREE.MathUtils.degToRad(alpha);
+				VAX.camera.rotation.x = THREE.MathUtils.degToRad(gamma);
 			}
 
 			// window.addEventListener("deviceorientation", deviceOrientation, true);
