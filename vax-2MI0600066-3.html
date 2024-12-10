@@ -81,15 +81,74 @@
 				VAX.scene.add(cone);
 			}
 
-			window.addEventListener("deviceorientation", deviceOrientation, true);
+			window.addEventListener( "deviceorientation", deviceOrientation, true);
 
-			function deviceOrientation(event) {
-				var alpha = event.alpha;
-				var beta = event.beta;
-				var gamma = event.gamma;
+var previousLetter;
+var previousGamma;
+var previousAlpha;
+			
+function deviceOrientation( event )
+{
+	var alpha = event.alpha;
 
-				VAX.camera.rotation.set(THREE.MathUtils.degToRad(gamma), THREE.MathUtils.degToRad(alpha), 0);
+	if( alpha === null ) alert("greshka");
+
+	var gamma = event.gamma;
+
+	if( gamma === null ) alert("greshka");
+
+				
+	if( gamma >= 0 ) {
+		gamma = 90-gamma;
+		if(!previousLetter){
+			previousLetter = 'A';
+			previousGamma = gamma;
+			previousAlpha = alpha;
+		} else {
+			if(previousLetter != 'A'){
+				if(Math.abs(previousGamma-gamma)<30){
+					previousLetter = 'A';
+					previousGamma = gamma;
+					previousAlpha = alpha;
+				} else {
+					alpha = alpha - 180;
+					gamma = previousGamma;
+				}
+			} else {
+				previousGamma = gamma;
+				previousAlpha = alpha;
 			}
+		}
+	}
+	else {
+		alpha = alpha+180;
+		gamma = -90-gamma;
+		if(!previousLetter){
+			previousLetter = 'A';
+			previousGamma = gamma;
+			previousAlpha = alpha;
+		} else {
+			if(previousLetter != 'B'){
+				if(Math.abs(previousGamma-gamma)<30){
+					previousLetter = 'B';
+					previousGamma = gamma;
+					previousAlpha = alpha;
+				} else {
+					alpha = alpha + 180;
+					gamma = previousGamma;
+				}
+			} else {
+				previousGamma = gamma;
+				previousAlpha = alpha;
+			}
+		}
+	}
+									
+	alpha = THREE.MathUtils.degToRad( alpha );
+	gamma = THREE.MathUtils.degToRad( gamma );
+				
+	VAX.camera.rotation.set( gamma, alpha, 0, 'YXZ' );
+}
 
 			// VAX.camera.position.z = 1000;
 
