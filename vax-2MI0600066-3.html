@@ -88,80 +88,119 @@
 
 			window.addEventListener("deviceorientation", deviceOrientation, true);
 
+			var previousLetter;
+var previousGamma;
+var previousAlpha;
+			
+function deviceOrientation( event )
+{
+	var alpha = event.alpha;
+
+	if( alpha === null ) alert("greshka");
+
+	var gamma = event.gamma;
+
+	if( gamma === null ) alert("greshka");
+
+				
+	if( gamma >= 0 ) {
+		gamma = 90-gamma;
+		if(!previousLetter){
+			previousLetter = 'A';
+			previousGamma = gamma;
+			previousAlpha = alpha;
+		} else {
+			if(previousLetter != 'A'){
+				if(Math.abs(previousGamma-gamma)<30){
+					previousLetter = 'A';
+					previousGamma = gamma;
+					previousAlpha = alpha;
+				} else {
+					alpha = alpha - 180;
+					gamma = previousGamma;
+				}
+			} else {
+				previousGamma = gamma;
+				previousAlpha = alpha;
+			}
+		}
+	}
+	else {
+		alpha = alpha+180;
+		gamma = -90-gamma;
+		if(!previousLetter){
+			previousLetter = 'A';
+			previousGamma = gamma;
+			previousAlpha = alpha;
+		} else {
+			if(previousLetter != 'B'){
+				if(Math.abs(previousGamma-gamma)<30){
+					previousLetter = 'B';
+					previousGamma = gamma;
+					previousAlpha = alpha;
+				} else {
+					alpha = alpha + 180;
+					gamma = previousGamma;
+				}
+			} else {
+				previousGamma = gamma;
+				previousAlpha = alpha;
+			}
+		}
+	}
+									
+	alpha = THREE.MathUtils.degToRad( alpha );
+	gamma = THREE.MathUtils.degToRad( gamma );
+				
+	camera.rotation.set( gamma, alpha, 0, 'YXZ' );
+}
+
 			var targetRotationY = 0;
 			var targetRotationX = 0;
 
 			var currentRotationY = 0;
 			var currentRotationX = 0;
 
-			function deviceOrientation(event)
-			{
-				var alpha = event.alpha;
-				var beta = event.beta;
-				var gamma = event.gamma;
+			// function deviceOrientation(event)
+			// {
+			// 	var alpha = event.alpha;
+			// 	var beta = event.beta;
+			// 	var gamma = event.gamma;
 
 				
 
-				// alpha and beta are dependable on gamma
+			// 	// alpha and beta are dependable on gamma
 
-				if (gamma < 0) {
-					alpha = 0;
-				}
+			// 	if (gamma < 0) {
+			// 		alpha = 0;
+			// 	}
 
-				document.getElementById('beta').innerHTML = beta.toFixed(1);
-				document.getElementById('alpha').innerHTML = alpha.toFixed(1);
-				document.getElementById('gamma').innerHTML = gamma.toFixed(1);
+			// 	document.getElementById('beta').innerHTML = beta.toFixed(1);
+			// 	document.getElementById('alpha').innerHTML = alpha.toFixed(1);
+			// 	document.getElementById('gamma').innerHTML = gamma.toFixed(1);
 
-				// alpha [0,360)
+			// 	// alpha [0,360)
 				
-				// gamma [-90,90)
-				// if (currentRotationY < 0) {
-				// 	currentRotationY += Math.PI/2;
-				// }
+			// 	// gamma [-90,90)
+			// 	// if (currentRotationY < 0) {
+			// 	// 	currentRotationY += Math.PI/2;
+			// 	// }
 
-				// // beta [-180,180)
-				// if (currentRotationX < 0) {
-				// 	currentRotationX += Math.PI;
-				// }
+			// 	// // beta [-180,180)
+			// 	// if (currentRotationX < 0) {
+			// 	// 	currentRotationX += Math.PI;
+			// 	// }
 
-				targetRotationY = THREE.MathUtils.degToRad(alpha);
-    			targetRotationX = THREE.MathUtils.degToRad(gamma);
+			// 	targetRotationY = THREE.MathUtils.degToRad(alpha);
+    		// 	targetRotationX = THREE.MathUtils.degToRad(gamma);
 
-				// VAX.camera.rotation.y = targetRotationY;
-    			VAX.camera.rotation.x = targetRotationX;
+			// 	// VAX.camera.rotation.y = targetRotationY;
+    		// 	VAX.camera.rotation.x = targetRotationX;
 
-				// if (gamma < 0) {
-				// 	VAX.camera.rotation.z = Math.PI;
-				// }
-			}
-
-			// function unwrapAngle(current, target) {
-			// 	while (target - current > Math.PI/2) {
-			// 		target -= Math.PI/2;
-			// 	}
-			// 	while (target - current < -Math.PI/2) {
-			// 		target += Math.PI/2;
-			// 	}
-
-			// 	return target;
+			// 	// if (gamma < 0) {
+			// 	// 	VAX.camera.rotation.z = Math.PI;
+			// 	// }
 			// }
-
-			function animate(t)
-			{
-				
-				
-				// currentRotationY = THREE.MathUtils.lerp(currentRotationY, targetRotationY, 0.1);
-    			// currentRotationX = THREE.MathUtils.lerp(currentRotationX, targetRotationX, 0.1);
-				
-				
-				
-				// targetRotationY = unwrapAngle(currentRotationY, targetRotationY);
-    			// targetRotationX = unwrapAngle(currentRotationX, targetRotationX);
-
-				// VAX.camera.rotation.y = currentRotationY;
-    			// VAX.camera.rotation.x = currentRotationX;
-			}
-			
 		</script>
 	</body>
 </html>
