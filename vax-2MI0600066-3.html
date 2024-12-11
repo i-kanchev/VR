@@ -105,7 +105,8 @@
 				// alpha and beta are dependable on gamma
 
 				if (gamma < 0) {
-					alpha = 0;
+					beta = 0;
+					alpha += 180;
 				}
 
 				document.getElementById('beta').innerHTML = beta.toFixed(1);
