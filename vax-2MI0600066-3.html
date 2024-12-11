@@ -24,7 +24,7 @@
 			import * as THREE from "three";
 			import * as VAX from "vax";
 			
-			VAX.initParallax();
+			VAX.initParallax(animate, -3);
 
 			VAX.camera.position.set(0, 0, 0);
 
@@ -46,7 +46,7 @@
 					color: getRandomColor(),
 					polygonOffset: true,
 					polygonOffsetFactor: 10,
-					polygonOffsetUnits: THREE.MathUtils.randFloat(0, 20)
+					polygonOffsetUnits: THREE.MathUtils.randFloat(0, 25)
 				});
 
 				var cone = new THREE.Mesh(geometry_cone, material);
@@ -111,6 +111,8 @@
     				VAX.camera.rotation.x = targetRotationX;
 				}
 			}
+
+			function animate(t) {}
 		</script>
 	</body>
 </html>
