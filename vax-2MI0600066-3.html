@@ -105,7 +105,7 @@
     			targetRotationX = THREE.MathUtils.degToRad(gamma);
 				
 				if (gamma < 0) {
-					VAX.camera.rotation.y = targetRotationY;
+					VAX.camera.rotation.y = targetRotationY + Math.PI;
     				// VAX.camera.rotation.x = targetRotationX + Math.PI;
 				}
 				else {
