@@ -91,6 +91,9 @@
 			var targetRotationY = 0;
 			var targetRotationX = 0;
 
+			var worldXAxis = new THREE.Vector3(1, 0, 0);
+			var worldYAxis = new THREE.Vector3(0, 1, 0);
+
 			function deviceOrientation(event)
 			{
 				var alpha = event.alpha;
@@ -106,14 +109,16 @@
 				// alpha and beta are dependable on gamma
 
 				if (gamma < 0) {
-					
-    				VAX.camera.rotation.x = targetRotationX + Math.PI;
-					VAX.camera.rotation.y = targetRotationY + Math.PI;
+					// VAX.camera.rotation.y = targetRotationY + Math.PI;
+    				// VAX.camera.rotation.x = targetRotationX + Math.PI;
+					VAX.camera.rotateOnWorldAxis(worldYAxis, targetRotationY + Math.PI);
+    				VAX.camera.rotateOnWorldAxis(worldXAxis, targetRotationX + Math.PI);
 				}
 				else {
-					
-    				VAX.camera.rotation.x = targetRotationX;
-					VAX.camera.rotation.y = targetRotationY;
+					// VAX.camera.rotation.y = targetRotationY;
+    				// VAX.camera.rotation.x = targetRotationX;
+					VAX.camera.rotateOnWorldAxis(worldYAxis, targetRotationY + Math.PI);
+    				VAX.camera.rotateOnWorldAxis(worldXAxis, targetRotationX + Math.PI);
 				}
 			}
 		</script>
