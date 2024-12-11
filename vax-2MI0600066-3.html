@@ -19,8 +19,6 @@
 	</head>
 	
 	<body>
-		<!-- <h3>alpha = <span id="alpha"></span></h3> -->
-		<!-- <h3>gamma = <span id="gamma"></span></h3> -->
 		<script type="module">
 		
 			import * as THREE from "three";
@@ -37,11 +35,11 @@
 				return `rgb(${r},${g},${b})`;
 			}
 
-			var geometry_cone = new THREE.ConeGeometry(5, 10, 24);
+			var geometry_cone = new THREE.ConeGeometry(5, 20, 24);
 
 			var total_cones = 1000;
 
-			var dist = 150;
+			var dist = 100;
 
 			for (var i = 0; i < total_cones; i++) {
 				var material = new THREE.MeshBasicMaterial({ color: getRandomColor() });
@@ -81,6 +79,7 @@
 				}
 			
 				cone.position.set(x, y, z);
+				cone.rotation.x = -Math.PI/2;
 				
 				VAX.scene.add(cone);
 			}
@@ -112,9 +111,6 @@
 					VAX.camera.rotation.y = targetRotationY;
     				VAX.camera.rotation.x = targetRotationX;
 				}
-
-				// document.getElementById('alpha').innerHTML = alpha.toFixed(1);
-				// document.getElementById('gamma').innerHTML = gamma.toFixed(1);
 			}
 			function animate(t) {}
 		</script>
