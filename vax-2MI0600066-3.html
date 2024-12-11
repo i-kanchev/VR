@@ -106,7 +106,7 @@
 
 				if (gamma < 0) {
 					beta = 0;
-					alpha += 180;
+					// alpha += 180;
 				}
 
 				document.getElementById('beta').innerHTML = beta.toFixed(1);
@@ -131,22 +131,10 @@
 				// VAX.camera.rotation.y = targetRotationY;
     			VAX.camera.rotation.x = targetRotationX;
 
-				// if (gamma < 0) {
-				// 	VAX.camera.rotation.z = Math.PI;
-				// }
+				if (gamma < 0) {
+					VAX.camera.rotation.y = Math.PI;
+				}
 			}
-
-			// function unwrapAngle(current, target) {
-			// 	while (target - current > Math.PI/2) {
-			// 		target -= Math.PI/2;
-			// 	}
-			// 	while (target - current < -Math.PI/2) {
-			// 		target += Math.PI/2;
-			// 	}
-
-			// 	return target;
-			// }
-
 			function animate(t) {}
 		</script>
 	</body>
