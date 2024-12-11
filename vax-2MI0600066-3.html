@@ -24,7 +24,7 @@
 			import * as THREE from "three";
 			import * as VAX from "vax";
 			
-			VAX.init(animate, {stats:true});
+			VAX.initParallax();
 
 			VAX.camera.position.set(0, 0, 0);
 
@@ -91,9 +91,6 @@
 			var targetRotationY = 0;
 			var targetRotationX = 0;
 
-			var currentRotationY = 0;
-			var currentRotationX = 0;
-
 			function deviceOrientation(event)
 			{
 				var alpha = event.alpha;
@@ -114,7 +111,6 @@
     				VAX.camera.rotation.x = targetRotationX;
 				}
 			}
-			function animate(t) {}
 		</script>
 	</body>
 </html>
