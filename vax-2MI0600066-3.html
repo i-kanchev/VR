@@ -42,12 +42,7 @@
 			var dist = 100;
 
 			for (var i = 0; i < total_cones; i++) {
-				var material = new THREE.MeshBasicMaterial({
-					color: getRandomColor(),
-					polygonOffset: true,
-					polygonOffsetFactor: 25,
-					polygonOffsetUnits: THREE.MathUtils.randFloat(0, 25)
-				});
+				var material = new THREE.MeshBasicMaterial({color: getRandomColor()});
 
 				var cone = new THREE.Mesh(geometry_cone, material);
 
@@ -57,24 +52,27 @@
 
 				var wall = Math.floor(Math.random() * 6);
 
+				// used to reduce z-fighting
+				var delta = THREE.MathUtils.randFloat(0, 0.1);
+
 				switch (wall) {
 					case 0:
-						x = dist;
+						x = dist + delta;
 						break;
 					case 1:
-						x = -dist;
+						x = -dist - delta;
 						break;
 					case 2:
-						y = dist;
+						y = dist + delta;
 						break;
 					case 3:
-						y = -dist;
+						y = -dist - delta;
 						break;
 					case 4:
-						z = dist;
+						z = dist + delta;
 						break;
 					case 5:
-						z = -dist;
+						z = -dist - delta;
 						break;
 					default:
 						// UwU
