@@ -24,8 +24,15 @@
 			import * as THREE from "three";
 			import * as VAX from "vax";
 			
-			VAX.initParallax();
+			// VAX.initParallax();
+			VAX.init();
 
+			// родителски клас, така че да може камерата да се върти в двете посоки, независимо една от друга
+			var subCamera = new THREE.Object3D();
+			VAX.scene.add(subCamera);
+			subCamera.add(VAX.camera);
+
+			subCamera.position.set(0, 0, 0);
 			VAX.camera.position.set(0, 0, 0);
 
 			function getRandomColor() {
@@ -101,14 +108,12 @@
 				// alpha and beta are dependable on gamma
 
 				if (gamma < 0) {
-					VAX.camera.rotation.y = targetRotationY + Math.PI;
-    				// VAX.camera.rotation.x = targetRotationX + Math.PI;
-					VAX.camera.rotateX(targetRotationX + Math.PI);
+					subCamera.rotation.y = targetRotationY + Math.PI;
+    				VAX.camera.rotation.x = targetRotationX + Math.PI;
 				}
 				else {
-					VAX.camera.rotation.y = targetRotationY;
-    				// VAX.camera.rotation.x = targetRotationX;
-					VAX.camera.rotateX(targetRotationX);
+					subCamera.rotation.y = targetRotationY;
+    				VAX.camera.rotation.x = targetRotationX;
 				}
 			}
 		</script>
