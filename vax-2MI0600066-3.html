@@ -108,11 +108,11 @@
 				// alpha and beta are dependable on gamma
 
 				if (gamma < 0) {
-					subCamera.rotation.x = targetRotationY + Math.PI;
+					subCamera.rotation.z = targetRotationY + Math.PI;
     				VAX.camera.rotation.x = targetRotationX + Math.PI;
 				}
 				else {
-					subCamera.rotation.x = targetRotationY;
+					subCamera.rotation.z = targetRotationY;
     				VAX.camera.rotation.x = targetRotationX;
 				}
 			}
