@@ -24,8 +24,7 @@
 			import * as THREE from "three";
 			import * as VAX from "vax";
 			
-			// VAX.initParallax();
-			VAX.init();
+			VAX.initParallax();
 
 			// родителски клас, така че да може камерата да се върти в двете посоки, независимо една от друга
 			var subCamera = new THREE.Object3D();
@@ -108,16 +107,10 @@
 				// alpha and beta are dependable on gamma
 
 				if (gamma < 0) {
-					// subCamera.rotation.z = targetRotationY + Math.PI;
-    				// VAX.camera.rotation.x = targetRotationX + Math.PI;
-
 					subCamera.rotation.z = -targetRotationY + Math.PI;
     				VAX.camera.rotation.x = -targetRotationX + Math.PI;
 				}
 				else {
-					// subCamera.rotation.z = targetRotationY;
-    				// VAX.camera.rotation.x = targetRotationX;
-
 					subCamera.rotation.z = -targetRotationY;
     				VAX.camera.rotation.x = -targetRotationX;
 				}
