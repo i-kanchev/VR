@@ -34,7 +34,6 @@
 
 			subCamera.position.set(0, 0, 0);
 			VAX.camera.position.set(0, 0, 0);
-			VAX.camera.lookAt(new THREE.Vector3(0, 0, -100));
 
 			function getRandomColor() {
 				const r = Math.floor(Math.random() * 256);
@@ -87,7 +86,7 @@
 				}
 			
 				cone.position.set(x, y, z);
-				// cone.rotation.x = Math.PI/2;
+				cone.rotation.x = Math.PI/2;
 				
 				VAX.scene.add(cone);
 			}
