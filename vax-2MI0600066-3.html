@@ -29,12 +29,11 @@
 
 			// родителски клас, така че да може камерата да се върти в двете посоки, независимо една от друга
 			var subCamera = new THREE.Object3D();
-			var camera = new THREE.PerspectiveCamera( 60, 1, 1, 1000 );
 			VAX.scene.add(subCamera);
-			subCamera.add(camera);
+			subCamera.add(VAX.camera);
 
 			subCamera.position.set(0, 0, 0);
-			// camera.position.set(0, 0, 0);
+			VAX.camera.position.set(0, 0, 0);
 
 			function getRandomColor() {
 				const r = Math.floor(Math.random() * 256);
@@ -113,14 +112,14 @@
     				// VAX.camera.rotation.x = targetRotationX + Math.PI;
 
 					subCamera.rotation.y = targetRotationY + Math.PI;
-    				camera.rotation.x = targetRotationX + Math.PI;
+    				VAX.camera.rotation.x = targetRotationX + Math.PI;
 				}
 				else {
 					// subCamera.rotation.z = targetRotationY;
     				// VAX.camera.rotation.x = targetRotationX;
 
 					subCamera.rotation.y = targetRotationY;
-    				camera.rotation.x = targetRotationX;
+    				VAX.camera.rotation.x = targetRotationX;
 				}
 			}
 		</script>
